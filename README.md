@@ -1,7 +1,7 @@
 rv32i
 
 - [x] i (mostly)
-- [ ] m (wip)
+- [x] m (unchecked)
 - [ ] a
 - [ ] f
 - [ ] d

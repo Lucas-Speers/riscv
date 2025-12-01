@@ -99,6 +99,18 @@ impl Hart {
                     opcode::op::MULHU => {
                         *self.rd() = (((self.rs1() as u64) * (self.rs2() as u64)) >> 32) as i32;
                     }
+                    opcode::op::DIV => {
+                        *self.rd() = self.rs1() / self.rs2();
+                    }
+                    opcode::op::DIVU => {
+                        *self.rd() = ((self.rs1() as u32) / (self.rs2() as u32)) as i32;
+                    }
+                    opcode::op::REM => {
+                        *self.rd() = self.rs1() % self.rs2();
+                    }
+                    opcode::op::REMU => {
+                        *self.rd() = ((self.rs1() as u32) % (self.rs2() as u32)) as i32;
+                    }
                     _ => todo!("OP {:?}", funct3(self.inst))
                 }
             }
