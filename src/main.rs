@@ -30,9 +30,9 @@ impl Hart {
         regs[3] = 42;
         regs[4] = 69;
 
-        // regs[2] = (DRAM_OFFSET + DRAM_SIZE) as i64;
+        regs[2] = 0x880000;
 
-        let pc = 0;
+        let pc = 0x80000000;
 
         Hart { memory, regs, pc, inst: 0 }
     }
@@ -157,11 +157,11 @@ impl Hart {
                 *self.rd() = imm_u(self.inst) + self.pc as i32;
             }
             opcode::JAL => {
-                *self.rd() = self.pc as i32;
+                *self.rd() = self.pc as i32 + 4;
                 self.pc += (imm_j(self.inst) - 4) as u32;
             }
             opcode::JALR => {
-                *self.rd() = self.pc as i32;
+                *self.rd() = self.pc as i32 + 4;
                 self.pc += (imm_i(self.inst) + self.rs1() - 4) as u32 &!1;
             }
             opcode::BRANCH => {
@@ -235,7 +235,7 @@ impl Hart {
             }
             opcode::MISC_MEM => {
                 match funct3(self.inst) {
-                    opcode::misc_mem::FENCE => {todo!("FENCE")}
+                    opcode::misc_mem::FENCE => (), // because memory is synced, we have no use for FENCE
                     _ => todo!("MISC-MEM {:?}", funct3(self.inst))
                 }
             }

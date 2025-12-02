@@ -32,9 +32,11 @@ pub struct BasicRam {
 impl BasicRam {
 
     pub fn new() -> BasicRam {
+        let mut mem = vec![0;0x8000000]; // 128 mebibyte
+
         let program = include_bytes!("../program");
 
-        let mem = program.to_vec();
+        mem[..program.len()].copy_from_slice(&program[..]);
 
         BasicRam { mem }
     }
@@ -42,11 +44,11 @@ impl BasicRam {
 
 impl Memory for BasicRam {
     fn read_8(&mut self, addr: u32) -> u8 {
-        self.mem[addr as usize]
+        self.mem[(addr-0x80000000) as usize]
     }
 
     fn write_8(&mut self, addr: u32, data: u8) {
-        self.mem[addr as usize] = data;
+        self.mem[(addr-0x80000000) as usize] = data;
     }
 }
 
