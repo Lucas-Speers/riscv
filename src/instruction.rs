@@ -131,9 +131,6 @@ pub mod opcode {
         pub const SW: u32 = 0b010;
     }
     pub const MISC_MEM: u32 = 0b00011;
-    pub mod misc_mem {
-        pub const FENCE: u32 = 0b000;
-    }
     pub const SYSTEM: u32 = 0b11100;
     pub mod system {
         pub const PRIV: u32 = 0;

@@ -25,10 +25,6 @@ impl Memory for Hart {
 impl Hart {
     fn new(memory: Box<dyn Memory>) -> Hart {
         let mut regs: [i32;32] = [0;32];
-        regs[1] = 5;
-        regs[2] = 1;
-        regs[3] = 42;
-        regs[4] = 69;
 
         regs[2] = 0x880000;
 
@@ -40,7 +36,6 @@ impl Hart {
     fn fetch(&mut self) {
         // TODO: instruction-address-misaligned exception 
         self.inst = self.read_32(self.pc);
-        // 0x003170b3
     }
 
     fn execute(&mut self) {
@@ -233,12 +228,7 @@ impl Hart {
                     _ => todo!("STORE {:?}", funct3(self.inst))
                 }
             }
-            opcode::MISC_MEM => {
-                match funct3(self.inst) {
-                    opcode::misc_mem::FENCE => (), // because memory is synced, we have no use for FENCE
-                    _ => todo!("MISC-MEM {:?}", funct3(self.inst))
-                }
-            }
+            opcode::MISC_MEM => {} // fencing is not required with how the memory is done
             opcode::SYSTEM => {
                 match funct3(self.inst) {
                     opcode::system::PRIV => {todo!("PRIV")}
